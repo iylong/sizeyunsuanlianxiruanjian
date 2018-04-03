@@ -12,11 +12,11 @@ public class Test {
 
 	public static void main(String[] args) 
 	{
-		//Login lg =new Login();
-		// lg.login();
+		Login lg =new Login();
+		 lg.login();
 		 
-		 form fm = new form();
-         fm.show();
+		// form fm = new form();
+         //fm.show();
 		//new Client();
 	}
 

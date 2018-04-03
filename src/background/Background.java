@@ -1,10 +1,18 @@
 package background;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import Fraction.Fractions;
@@ -20,9 +28,18 @@ public class Background {
 	private String[] operator = new String[testNum]; // 储存每个题目的运算符
 	private ArrayList<String> scoresList = new ArrayList<String>(); // 定义错题集
 	private BufferedWriter writer;
-
+	private static  List<String> scores = new ArrayList<String>();
+	private static SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	static {
+		try {
+			upDate();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public Background() {
-
+		
 	}
 
 	public void createTest() {
@@ -95,17 +112,48 @@ public class Background {
 		return result;
 	}
 		// 上传正确率
-	public void upDate(Integer right,Integer all){
-		try {
-			writer = new BufferedWriter(new FileWriter(new File("history/accuracy.txt")));
-			writer.write(right.toString());
-			writer.newLine();
-			writer.write(all.toString());
-			writer.newLine();
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+	public static void upDate() throws IOException{
+//		try {
+//			writer = new BufferedWriter(new FileWriter(new File("history/accuracy.txt")));
+//			writer.write(right.toString());
+//			writer.newLine();
+//			writer.write(all.toString());
+//			writer.newLine();
+//			writer.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		File file = new File("history/scores.txt");
+		if (file.exists()) {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+			while (true) {
+				String readLine = reader.readLine();
+				if (readLine == null) {
+					break;
+				}
+				scores.add(readLine);
+			}
+			reader.close();
+		} else {
+			file.createNewFile();
 		}
-		
 	}
+	/**
+	 * 保存成绩到文件
+	 * @throws FileNotFoundException 
+	 */
+	public static void addscore(Integer score) throws FileNotFoundException {
+		String form = date.format(new Date());
+		PrintWriter pw = new PrintWriter(new File("history/scores.txt"));
+		if (scores.size() >= 10) {//最多十次数据
+			scores.remove(0);
+		}
+		scores.add(form + "-----" + score);
+		for (String string : scores) {
+			pw.println(string);
+		}
+		pw.flush();
+		pw.close();
+	}
+	
 }

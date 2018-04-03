@@ -2,6 +2,7 @@ package login;
 
 import javax.swing.*;
 
+import client.Client;
 import form.form;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public class Login {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// 设置窗口的大小和位置
-		f.setSize(400, 300);
+		f.setSize(600, 400);
 		f.setLocation(420, 500);
 
 		Container con = f.getContentPane();// 生成一个容器
@@ -30,9 +31,8 @@ public class Login {
 
 		JLabel title = new JLabel("第一届小学生数学竞赛系统");
 		title.setFont(new Font("宋体", Font.BOLD, 25));
-		title.setBounds(250, 300, 50, 50);
 		pan1.add(title);
-		//
+
 		JPanel pan2 = new JPanel();
 		JLabel name = new JLabel("用户名:");
 		name.setFont(new Font("宋体", Font.BOLD, 20));
@@ -53,8 +53,9 @@ public class Login {
 		con.add(pan3);
 
 		JPanel pan4 = new JPanel();
+		
 		JButton b_log = new JButton("登陆");
-		b_log.setBounds(430, 500, 90, 40);
+		
 		b_log.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -66,6 +67,7 @@ public class Login {
 					f.dispose();
 					form fm = new form();
 					fm.show();
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "账号或密码错误!");
 					nameTest.setText("");
